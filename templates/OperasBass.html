@@ -1,0 +1,17 @@
+{% extends "layout2.html" %}
+
+{% block content %}
+
+<h1>Calculadora Basica</h1>
+<form action="/resultado" method="POST">
+    <label>N1:</label>
+    <input type="text" name="n1"><br>
+    <label>N2:</label>
+    <input type="text" name="n2"><br>
+    <input type="submit" name="operacion" value="Suma">
+    <input type="submit" name="operacion" value="Resta">
+    <input type="submit" name="operacion" value="Multiplicacion">
+    <input type="submit" name="operacion" value="Division">
+  </form> 
+
+{% endblock %}
