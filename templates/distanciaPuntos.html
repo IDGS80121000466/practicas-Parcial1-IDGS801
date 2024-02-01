@@ -1,0 +1,37 @@
+{% extends "layout2.html" %}
+{%block content %}
+{% import "_macros2.html" as macros%}
+
+<h1>Distancia de puntos</h1>
+<form action="" method="POST" novalidate>
+    <div class="row control-group">
+        <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+            {{macros.camposNuevos(form.x1, class='form-control')}}
+        </div>
+    </div>
+    <div class="row control-group">
+        <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+            {{macros.camposNuevos(form.x2, class='form-control')}}
+        </div>
+    </div>
+    <div class="row control-group">
+        <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+            {{macros.camposNuevos(form.y1, class='form-control')}}
+        </div>
+    </div>
+    <div class="row control-group">
+        <div class="form-groupform-group col-xs-12 floating-label-form-group ontrols">
+            {{macros.camposNuevos(form.y2, class='form-control')}}
+        </div>
+    </div>
+    <input type="submit" id="btn1" name="btn1" value="Registrar">
+</form>
+<h1>x1: {{x1}}</h1>
+<h1>x2: {{x2}}</h1>
+<h1>y1: {{y1}}</h1>
+<h1>y2: {{y2}}</h1>
+<h1>Resultado: {{ form.resultado.data }}</h1>
+
+
+
+{% endblock %}
