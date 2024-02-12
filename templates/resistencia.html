@@ -1,0 +1,111 @@
+{% extends "layout2.html" %}
+
+{% block content %}
+{% import "_macros3.html" as macros %}
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    
+</style>
+<h1>Calcular Resistencia</h1>
+<form action="/resistencia" method="POST" novalidate>
+    <div class="row control-group">
+        <div class="form-groupform-group col-xs-12 floating-label-form-group controls">
+            <label for="colorPrimeraBanda">Color 1:</label>
+            <select id="colorPrimeraBanda" name="primeraBanda">
+                <option value="0">Primera Banda</option>
+                <option value="0">Negro (0)</option>
+                <option value="1">Café (1)</option>
+                <option value="2">Rojo (2)</option>
+                <option value="3">Naranja (3)</option>
+                <option value="4">Amarillo (4)</option>
+                <option value="5">Verde (5)</option>
+                <option value="6">Azul (6)</option>
+                <option value="7">Morado (7)</option>
+                <option value="8">Gris (8)</option>
+                <option value="9">Blanco (9)</option>
+            </select>
+
+            <label for="colorSegundaBanda">Color 2:</label>
+            <select id="colorSegundaBanda" name="segundaBanda">
+                <option value="0">Segunda Banda</option>
+                <option value="0">Negro (0)</option>
+                <option value="1">Café (1)</option>
+                <option value="2">Rojo (2)</option>
+                <option value="3">Naranja (3)</option>
+                <option value="4">Amarillo (4)</option>
+                <option value="5">Verde (5)</option>
+                <option value="6">Azul (6)</option>
+                <option value="7">Morado (7)</option>
+                <option value="8">Gris (8)</option>
+                <option value="9">Blanco (9)</option>
+            </select>
+
+            <label for="colorTerceraBanda"> Color 3:</label>
+            <select id="colorTerceraBanda" name="terceraBanda">
+                <option value="1">Tercera Banda</option>
+                <option value="1">Negro</option>
+                <option value="10">Café</option>
+                <option value="100">Rojo</option>
+                <option value="1000">Naranja</option>
+                <option value="10000">Amarillo</option>
+                <option value="100000">Verde</option>
+                <option value="1000000">Azul</option>
+                <option value="10000000">Morado</option>
+                <option value="100000000">Gris</option>
+                <option value="1000000000">Blanco</option>
+            </select>
+
+            <label for="tolerancia">Tolerancia:</label>
+                <select id="tolerancia" name="tolerancia">
+                    <option value="0.05">Oro (0.5)</option>
+                    <option value="0.01">Plata (0.1)</option>
+                </select>
+
+            <input type="submit" id="btn1" name="btn1" value="Registrar">
+
+            <h1>Tabla de colores de resistencias</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Color</th>
+                        <th>Color 2</th>
+                        <th>Color 3</th>
+                        <th>Tolerancia</th>
+                        <th>Valor</th>
+                        <th>Máximo</th>
+                        <th>Mínimo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if valor %}
+                    <tr>
+                        <td style="background-color: {{ primeraBanda[1] }}">{{ primeraBanda[0] }}</td>
+                        <td style="background-color: {{ segundaBanda[1] }}">{{ segundaBanda[0] }}</td>
+                        <td style="background-color: {{ terceraBanda[1] }}">{{ terceraBanda[0] }}</td>
+                        <td style="background-color: {{ tolerancia_color }};">{{ tolerancia }}</td>
+                        <td>{{ valor }}</td>
+                        <td>{{ valorMaximo }}</td>
+                        <td>{{ valorMinimo }}</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+{% endblock %}
+

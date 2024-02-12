@@ -13,3 +13,12 @@ class PuntosForm(FlaskForm):
     y1 = IntegerField('y1')
     y2 = IntegerField('y2')
     resultado = IntegerField('resultado')
+
+class ColoresForm(FlaskForm):
+    primeraBanda= IntegerField('primeraBanda')
+    segundaBanda= IntegerField('segundaBanda')
+    terceraBanda= IntegerField('terceraBanda')
+    tolerancia= IntegerField('tolerancia')
+    valor= IntegerField('valor')
+    valorMaximo= IntegerField('valorMaximo')
+    valorMinimo= IntegerField('valor')
