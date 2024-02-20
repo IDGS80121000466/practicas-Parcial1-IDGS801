@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from flask import Flask, render_template, request, send_from_directory
-from forms import PuntosForm, ColoresForm
+from forms import PuntosForm, ColoresForm, RegistrarColores, BuscarColores
 
 import os
 import forms
@@ -16,6 +16,93 @@ def index():
 @app.route("/OperasBass")
 def operas():
     return render_template("OperasBass.html")
+
+@app.route("/colores", methods=['GET', 'POST'])
+def colores():
+    colorIngles = ''
+    colorEspanol = ''
+    buscarColor = ''
+    seleccionarColor = ''
+    colores_clase = RegistrarColores(request.form)
+    coloress_clase = BuscarColores(request.form)
+    alerta = colorEncontrado = ''
+    leerEspanol = leerIngles = ''
+    
+    with open('coloresEspañol.txt', 'r') as archivo1:
+        leerEspanol = archivo1.read()
+
+    if request.method == 'POST':    
+        if 'btn_registrar' in request.form:
+            if colores_clase.validate():
+                colorIngles = colores_clase.colorIngles.data
+                colorEspanol = colores_clase.colorEspanol.data
+                if not colorExistente('coloresEspañol.txt', colorEspanol):
+                    with open('coloresEspañol.txt', 'a') as archivo1:
+                        archivo1.write('\n' + colorEspanol + '\n' + colorIngles)                      
+                    with open('coloresEspañol.txt', 'r') as archivo1:
+                        leerEspanol = archivo1.read()
+                    print('Color Español: {}'.format(colorEspanol))
+                    alerta = "El color se ha registrado correctamente."
+                else:
+                    alerta = "El color ya está registrado."
+        elif 'btn_buscar' in request.form:
+            if coloress_clase.validate():
+                buscarColor = coloress_clase.buscarColor.data
+                seleccionarColor = coloress_clase.seleccionarColor.data
+                with open('coloresEspañol.txt', 'r') as archivo1:
+                        leerEspanol = archivo1.read()
+                colorEncontrado = traducir_color(buscarColor, seleccionarColor)
+                print('Buscar Color: {}'.format(buscarColor))
+                print('Seleccionar Color: {}'.format(seleccionarColor))
+    
+    return render_template("colores.html", form=colores_clase, form_buscar=coloress_clase, 
+                           colorIngles=colorIngles, colorEspanol=colorEspanol,
+                           seleccionarColor=seleccionarColor, listaEspanol=leerEspanol, listaIngles= leerIngles, 
+                           colorEncontrado = colorEncontrado, alerta=alerta)
+
+def colorExistente(rutaArchivo, color):
+    with open(rutaArchivo, 'r') as archivo:
+        colores_existentes = archivo.read().splitlines()
+        if color in colores_existentes:
+            return True
+        else:
+            return False
+            
+def traducir_color(buscar_color, idioma):
+    with open('coloresEspañol.txt', 'r', encoding='utf-8') as archivo:
+        lineas = archivo.readlines()
+
+    traducciones_espanol = {}
+    traducciones_ingles = {}
+    
+    for i in range(1, len(lineas), 2):
+        palabra_espanol = lineas[i].strip()
+        palabra_ingles = lineas[i+1].strip()
+        traducciones_espanol[palabra_espanol] = palabra_ingles
+        traducciones_ingles[palabra_ingles] = palabra_espanol
+
+    if idioma == 'ingles':
+        if buscar_color in traducciones_espanol:
+            return traducciones_espanol[buscar_color]
+        elif buscar_color in traducciones_ingles:
+            return buscar_color
+        else:
+            return "Error: Palabra no encontrada."
+    elif idioma == 'espanol':
+        if buscar_color in traducciones_ingles:
+            return traducciones_ingles[buscar_color]
+        elif buscar_color in traducciones_espanol:
+            return buscar_color
+        else:
+            return "Error: Palabra no encontrada."
+    else:
+        return "Error: idioma no válido."
+
+
+
+
+
+
 
 @app.route("/resultado", methods=["GET", "POST"])
 def resul():
@@ -156,7 +243,7 @@ def resistencia():
                            valorMinimo=resultadoValorMinimo, primeraBanda=rColor1, segundaBanda=rColor2,
                            terceraBanda=rColor3, tolerancia = rtolerancia, tolerancia_color=rtolerancia_color)
 
-
+    
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,0 +1,68 @@
+{% extends "layout2.html" %}
+{% block content %}
+{% import "_macros2.html" as macros %}
+
+<style>
+    .container-forms {
+        display: flex;
+        justify-content: space-between;
+    }
+    .col-form {
+        width: 48%;
+    }
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #f2f2f2;
+    }
+
+    
+</style>
+
+<div class="container text-center mt-5">
+    <h1>Plabras Ingles / Español</h1>
+</div>
+
+<div class="container-forms">
+    <div class="col-form">
+        <form action="" method="POST" novalidate>
+            <h2>Registrar Palabras</h2>
+            {{ macros.camposNuevos(form.colorIngles, class='form-control') }}
+            {{ macros.camposNuevos(form.colorEspanol, class='form-control') }}
+            <input type="submit" id="btn1" name="btn_registrar" value="Registrar" class="btn btn-danger">
+            <h4>Mensaje: {{ alerta }}</h4>
+        </form>
+    </div>
+    <div class="col-form">
+        <form action="" method="POST" novalidate>
+            <h2>Buscar Palabras</h2>
+            {{ macros.camposNuevos(form_buscar.seleccionarColor, class='form-control') }}
+            {{ macros.camposNuevos(form_buscar.buscarColor, class='form-control') }}
+            <input type="submit" id="btn2" name="btn_buscar" value="Buscar" class="btn btn-danger">
+        </form>
+    </div>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th><h4>Palabras Guardadas</h4></th>
+            <th><h4>Palabras Encontradas</h4></th>            
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ listaEspanol }} <p></p>{{ listaIngles }}</td>
+            <td>{{ colorEncontrado }}</td>
+        </tr>
+    </tbody>
+</table>
+{% endblock %}
